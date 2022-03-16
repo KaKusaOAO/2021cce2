@@ -11,11 +11,13 @@
 #endif // K_USE_CPP_STRING
 
 //: Visual Studio 2015 & C++11 removes gets() support (and there's no gets_s before that)
+inline char *KGetS(char *buffer, int len) {
 #if (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
-#define KGetS gets_s
+    return gets_s(buffer, len);
 #else // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
-#define KGetS(x, len) gets(x)
+    return gets(buffer);
 #endif // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
+}
 
 #ifdef K_USE_CPP_STRING
 typedef std::string KString;
