@@ -27,12 +27,14 @@ int handleInput(char *line) {
         entries[i] = { (char)i, 0 };    
     }
 
+    // Analyze input
     int len = strlen(line);
     for (int i=0; i<len; i++) {
         char c = line[i];
         entries[c].count++;
     }
 
+    // Sort entries and output
     qsort(entries, 256, sizeof(Entry), compareEntries);
     for (int i=0; i<256; i++) {
         Entry entry = entries[i];
@@ -48,7 +50,7 @@ void doTest() {
 }
 
 int main() {
-    doTest();
+    // doTest();
 
     char buffer[LEN];
     while(gets(buffer)) {
