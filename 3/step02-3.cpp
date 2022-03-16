@@ -10,7 +10,7 @@
 #include <string>
 #endif // K_USE_CPP_STRING
 
-//: Visual Studio 2015 & C++11 removes gets() support
+//: Visual Studio 2015 & C++11 removes gets() support (and there's no gets_s before that)
 #if (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
 #define KGetS gets_s
 #else // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
