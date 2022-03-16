@@ -19,6 +19,11 @@ inline char *KGetS(char *buffer, int len) {
 #endif // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
 }
 
+template<int size>
+inline char *KGetS(char (&buffer)[size]) {
+    return KGetS(buffer, size);
+}
+
 #ifdef K_USE_CPP_STRING
 typedef std::string KString;
 #else  // K_USE_CPP_STRING
@@ -88,7 +93,7 @@ int main() {
     // doTest();
 
     char buffer[LEN];
-    while(KGetS(buffer, LEN)) {
+    while(KGetS(buffer)) {
         handleInput(buffer);
     }
 }
