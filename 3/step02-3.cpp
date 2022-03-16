@@ -11,16 +11,16 @@
 #endif // K_USE_CPP_STRING
 
 #if defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917
-#define K_GETS_MAX_VER 0L         //: Visual Studio 2015 removes gets() support
-#else  // defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917
-#define K_GETS_MAX_VER 201103L    //: C++11 removes gets() support
+#define K_GETS_DEPRECATED         // --> Visual Studio 2015 removes gets() support
+#elif __cplusplus >= 201103L // defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917
+#define K_GETS_DEPRECATED         // --> C++11 removes gets() support
 #endif // defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917
 
-#if __cplusplus >= K_GETS_MAX_VER
+#ifdef K_GETS_DEPRECATED
 #define KGetS gets_s
-#else // __cplusplus >= K_GETS_MAX_VER
+#else // K_GETS_DEPRECATED
 #define KGetS(x, len) gets(x)
-#endif // __cplusplus >= K_GETS_MAX_VER
+#endif // K_GETS_DEPRECATED
 
 #ifdef K_USE_CPP_STRING
 typedef std::string KString;
