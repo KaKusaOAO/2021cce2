@@ -10,11 +10,10 @@
 #include <string>
 #endif // K_USE_CPP_STRING
 
-#if defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917
-#define K_GETS_DEPRECATED         // --> Visual Studio 2015 removes gets() support
-#elif __cplusplus >= 201103L // defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917
-#define K_GETS_DEPRECATED         // --> C++11 removes gets() support
-#endif // defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917
+//: Visual Studio 2015 & C++11 removes gets() support
+#if (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
+#define K_GETS_DEPRECATED
+#endif // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
 
 #ifdef K_GETS_DEPRECATED
 #define KGetS gets_s
