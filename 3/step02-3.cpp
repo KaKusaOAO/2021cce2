@@ -1,7 +1,41 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
+
+//: The "-Wwrite-strings" warning is annoying
+#define K_USE_CPP_STRING
 #define LEN 2048
+
+#ifdef K_USE_CPP_STRING
+#include <string>
+#endif
+
+//: Visual Studio 2015 removes gets() support
+#if defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917
+#define K_GETS_MAX_VER 0L
+#else
+#define K_GETS_MAX_VER 201103L
+#endif
+
+#if __cplusplus >= K_GETS_MAX_VER
+#define KGetS gets_s
+#else
+#define KGetS(x, len) gets(x)
+#endif
+
+#ifdef K_USE_CPP_STRING
+typedef std::string KString;
+#else
+typedef char* KString;
+#endif
+
+inline int KStrLen(KString str) {
+#ifdef K_USE_CPP_STRING
+    return str.length();
+#else
+    return strlen(str);
+#endif
+}
 
 typedef struct {
     char code;
@@ -22,14 +56,17 @@ int compareEntries(const void *a, const void *b) {
     return deltaCount == 0 ? bEntry->code - aEntry->code : deltaCount;
 }
 
-int handleInput(char *line) {
+int handleInput(KString line) {
     // Initialize
     for (int i=0; i<256; i++) {
-        entries[i] = { (char)i, 0 };    
+        Entry entry;
+        entry.code = (char)i;
+        entry.count = 0;
+        entries[i] = entry;    
     }
 
     // Analyze input
-    int len = strlen(line);
+    int len = KStrLen(line);
     for (int i=0; i<len; i++) {
         char c = line[i];
         entries[c].count++;
@@ -55,7 +92,7 @@ int main() {
     // doTest();
 
     char buffer[LEN];
-    while(gets(buffer)) {
+    while(KGetS(buffer, LEN)) {
         handleInput(buffer);
     }
 }
