@@ -9,6 +9,7 @@ typedef struct {
 } Entry;
 
 Entry entries[256];
+int caseCount = 0;
 
 int compareEntries(const void *a, const void *b) {
     if (a == 0) return -1;
@@ -36,12 +37,13 @@ int handleInput(char *line) {
 
     // Sort entries and output
     qsort(entries, 256, sizeof(Entry), compareEntries);
+    if (caseCount > 0) printf("\n");
     for (int i=0; i<256; i++) {
         Entry entry = entries[i];
         if (entry.count == 0) continue;
         printf("%d %d\n", entry.code, entry.count);
     }
-    printf("\n");
+    caseCount++;
 }
 
 void doTest() {
