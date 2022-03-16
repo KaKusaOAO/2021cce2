@@ -12,14 +12,10 @@
 
 //: Visual Studio 2015 & C++11 removes gets() support
 #if (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
-#define K_GETS_DEPRECATED
-#endif // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
-
-#ifdef K_GETS_DEPRECATED
 #define KGetS gets_s
-#else // K_GETS_DEPRECATED
+#else // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
 #define KGetS(x, len) gets(x)
-#endif // K_GETS_DEPRECATED
+#endif // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
 
 #ifdef K_USE_CPP_STRING
 typedef std::string KString;
