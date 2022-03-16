@@ -11,11 +11,9 @@
 #endif // K_USE_CPP_STRING
 
 #if defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917
-//: Visual Studio 2015 removes gets() support
-#define K_GETS_MAX_VER 0L
+#define K_GETS_MAX_VER 0L         //: Visual Studio 2015 removes gets() support
 #else  // defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917
-//: C++11 removes gets() support
-#define K_GETS_MAX_VER 201103L
+#define K_GETS_MAX_VER 201103L    //: C++11 removes gets() support
 #endif // defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917
 
 #if __cplusplus >= K_GETS_MAX_VER
