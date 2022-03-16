@@ -38,50 +38,16 @@ inline int KStrLen(KString str) {
 #endif // K_USE_CPP_STRING
 }
 
-typedef struct {
-    char code;
-    int count;
-} Entry;
-
-Entry entries[256];
-int caseCount = 0;
-
-int compareEntries(const void *a, const void *b) {
-    if (a == 0) return -1;
-    if (b == 0) return 1;
-
-    Entry *aEntry = (Entry*)a;
-    Entry *bEntry = (Entry*)b;
-
-    int deltaCount = aEntry->count - bEntry->count;
-    return deltaCount == 0 ? bEntry->code - aEntry->code : deltaCount;
+inline const char *KCStr(KString str) {
+#ifdef K_USE_CPP_STRING
+    return str.c_str();
+#else  // K_USE_CPP_STRING
+    return str;
+#endif // K_USE_CPP_STRING
 }
 
 int handleInput(KString line) {
-    // Initialize
-    for (int i=0; i<256; i++) {
-        Entry entry;
-        entry.code = (char)i;
-        entry.count = 0;
-        entries[i] = entry;    
-    }
-
-    // Analyze input
-    int len = KStrLen(line);
-    for (int i=0; i<len; i++) {
-        char c = line[i];
-        entries[c].count++;
-    }
-
-    // Sort entries and output
-    qsort(entries, 256, sizeof(Entry), compareEntries);
-    if (caseCount > 0) printf("\n");
-    for (int i=0; i<256; i++) {
-        Entry entry = entries[i];
-        if (entry.count == 0) continue;
-        printf("%d %d\n", entry.code, entry.count);
-    }
-    caseCount++;
+    printf("%s\n", KCStr(line));
 }
 
 void doTest() {
