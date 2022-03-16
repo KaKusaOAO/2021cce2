@@ -8,33 +8,34 @@
 
 #ifdef K_USE_CPP_STRING
 #include <string>
-#endif
+#endif // K_USE_CPP_STRING
 
-//: Visual Studio 2015 removes gets() support
 #if defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917
+//: Visual Studio 2015 removes gets() support
 #define K_GETS_MAX_VER 0L
-#else
+#else  // defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917
+//: C++11 removes gets() support
 #define K_GETS_MAX_VER 201103L
-#endif
+#endif // defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917
 
 #if __cplusplus >= K_GETS_MAX_VER
 #define KGetS gets_s
-#else
+#else // __cplusplus >= K_GETS_MAX_VER
 #define KGetS(x, len) gets(x)
-#endif
+#endif // __cplusplus >= K_GETS_MAX_VER
 
 #ifdef K_USE_CPP_STRING
 typedef std::string KString;
-#else
+#else  // K_USE_CPP_STRING
 typedef char* KString;
-#endif
+#endif // K_USE_CPP_STRING
 
 inline int KStrLen(KString str) {
 #ifdef K_USE_CPP_STRING
     return str.length();
-#else
+#else  // K_USE_CPP_STRING
     return strlen(str);
-#endif
+#endif // K_USE_CPP_STRING
 }
 
 typedef struct {
