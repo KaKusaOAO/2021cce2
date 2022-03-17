@@ -10,13 +10,20 @@
 #include <string>
 #endif // K_USE_CPP_STRING
 
-//: Visual Studio 2015 & C++11 removes gets() support (and there's no gets_s before that)
+//: Visual Studio 2015 removes gets() support (and there's no gets_s before that)
 inline char *KGetS(char *buffer, int len) {
-#if (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
+#if (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917)
+    // gets_s seems like a Windows only method
     return gets_s(buffer, len);
-#else // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
+#elif __cplusplus >= 201103L // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917)
+    // fgets() contains a newline char at the end, we need to remove that
+    char *result = fgets(buffer, len, stdin);
+    int l = strlen(buffer);
+    buffer[l-1] = '\0';
+    return result;
+#else // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917)
     return gets(buffer);
-#endif // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
+#endif // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917)
 }
 
 template<int size>
@@ -65,7 +72,7 @@ int compareEntries(const void *a, const void *b) {
     return deltaCount == 0 ? bEntry->code - aEntry->code : deltaCount;
 }
 
-int handleInput(KString line) {
+void handleInput(KString line) {
     // Initialize
     for (int i=0; i<256; i++) {
         Entry entry;
@@ -97,7 +104,7 @@ void doTest() {
     handleInput("122333444555");
 }
 
-int main() {
+int main(){
     // doTest();
 
     char buffer[LEN];
