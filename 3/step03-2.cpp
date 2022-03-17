@@ -15,14 +15,13 @@ inline char *KGetS(char *buffer, int len) {
 #if (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917)
     // gets_s seems like a Windows only method
     return gets_s(buffer, len);
-#elif __cplusplus >= 201103L // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917)
-    // fgets() contains a newline char at the end, we need to remove that
+#else // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917)
+    // Calling gets() on some OS generates a warning at runtime, so we need to use fgets() instead.
+    // fgets() contains a newline char at the end, we need to remove that.
     char *result = fgets(buffer, len, stdin);
     int l = strlen(buffer);
     buffer[l-1] = '\0';
     return result;
-#else // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917)
-    return gets(buffer);
 #endif // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917)
 }
 
