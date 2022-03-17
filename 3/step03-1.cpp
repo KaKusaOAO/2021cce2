@@ -10,13 +10,19 @@
 #include <string>
 #endif // K_USE_CPP_STRING
 
-//: Visual Studio 2015 & C++11 removes gets() support (and there's no gets_s before that)
+//: gets() is unsafe so we are using alternatives.
 inline char *KGetS(char *buffer, int len) {
-#if (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
+#if (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917)
+    // gets_s seems like a Windows only method
     return gets_s(buffer, len);
-#else // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
-    return gets(buffer);
-#endif // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917) || __cplusplus >= 201103L
+#else // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917)
+    // Calling gets() on some OS generates a warning at runtime, so we need to use fgets() instead.
+    // fgets() contains a newline char at the end, we need to remove that.
+    char *result = fgets(buffer, len, stdin);
+    int l = strlen(buffer);
+    buffer[l-1] = '\0';
+    return result;
+#endif // (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917)
 }
 
 template<int size>
@@ -40,7 +46,10 @@ inline int KStrLen(KString str) {
 
 inline const char *KCStr(KString str) {
 #ifdef K_USE_CPP_STRING
-    return str.c_str();
+    // A trick to prevent -Wreturn-stack-address warning.
+    // (warning: address of stack memory associated with parameter 'str' returned)
+    const char* result = str.c_str();
+    return result;
 #else  // K_USE_CPP_STRING
     return str;
 #endif // K_USE_CPP_STRING
