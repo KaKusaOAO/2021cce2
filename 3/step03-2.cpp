@@ -46,7 +46,10 @@ inline int KStrLen(KString str) {
 
 inline const char *KCStr(KString str) {
 #ifdef K_USE_CPP_STRING
-    return str.c_str();
+    // A trick to prevent -Wreturn-stack-address warning.
+    // (warning: address of stack memory associated with parameter 'str' returned)
+    const char* result = str.c_str();
+    return result;
 #else  // K_USE_CPP_STRING
     return str;
 #endif // K_USE_CPP_STRING
