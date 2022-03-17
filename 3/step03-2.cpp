@@ -10,7 +10,7 @@
 #include <string>
 #endif // K_USE_CPP_STRING
 
-//: Visual Studio 2015 removes gets() support (and there's no gets_s before that)
+//: gets() is unsafe so we are using alternatives.
 inline char *KGetS(char *buffer, int len) {
 #if (defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 192929917)
     // gets_s seems like a Windows only method
