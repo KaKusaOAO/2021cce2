@@ -52,48 +52,29 @@ inline const char *KCStr(KString str) {
 #endif // K_USE_CPP_STRING
 }
 
-typedef struct {
-    char code;
-    int count;
-} Entry;
-
-Entry entries[256];
 int caseCount = 0;
-
-int compareEntries(const void *a, const void *b) {
-    if (a == 0) return -1;
-    if (b == 0) return 1;
-
-    Entry *aEntry = (Entry*)a;
-    Entry *bEntry = (Entry*)b;
-
-    int deltaCount = aEntry->count - bEntry->count;
-    return deltaCount == 0 ? bEntry->code - aEntry->code : deltaCount;
-}
 
 void handleInput(KString line) {
     // Initialize
-    for (int i=0; i<256; i++) {
-        Entry entry;
-        entry.code = (char)i;
-        entry.count = 0;
-        entries[i] = entry;    
-    }
+    char entries[256] = {};
 
     // Analyze input
     int len = KStrLen(line);
     for (int i=0; i<len; i++) {
         char c = line[i];
-        entries[c].count++;
+        entries[c]++;
     }
 
-    // Sort entries and output
-    qsort(entries, 256, sizeof(Entry), compareEntries);
-    if (caseCount > 0) printf("\n");
-    for (int i=0; i<256; i++) {
-        Entry entry = entries[i];
-        if (entry.count == 0) continue;
-        printf("%d %d\n", entry.code, entry.count);
+    for (int f=1; f<=len; f++) {
+        // Loop through all possible frequency of the characters in ascending order.
+        // The max possible frequency if the length of the line.
+        for (int c=128; c>=32; c--) {
+            // Loop for every possible ASCII input characters in descending order.
+            // If the frequency matches the count of the character, print it out.
+            if(entries[c] == f) {
+                printf("%d %d\n", c, entries[c]);
+            }
+        }
     }
     caseCount++;
 }
