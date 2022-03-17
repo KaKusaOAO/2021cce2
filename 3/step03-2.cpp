@@ -73,7 +73,7 @@ void handleInput(KString line) {
 
     for (int f=1; f<=max; f++) {
         // Loop through all possible frequency of the characters in ascending order.
-        // The max frequency we have is stored previously.
+        // The max possible frequency is stored previously.
         for (int c=128; c>=32; c--) {
             // Loop for every possible ASCII input characters in descending order.
             // If the frequency matches the count of the character, print it out.
