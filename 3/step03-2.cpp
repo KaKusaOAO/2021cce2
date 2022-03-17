@@ -63,14 +63,17 @@ void handleInput(KString line) {
 
     // Analyze input
     int len = KStrLen(line);
+    int max = 0;
     for (int i=0; i<len; i++) {
         char c = line[i];
-        entries[c]++;
+        if (++entries[c] > max) {
+            max = entries[c];
+        }
     }
 
-    for (int f=1; f<=len; f++) {
+    for (int f=1; f<=max; f++) {
         // Loop through all possible frequency of the characters in ascending order.
-        // The max possible frequency if the length of the line.
+        // The max frequency we have is stored previously.
         for (int c=128; c>=32; c--) {
             // Loop for every possible ASCII input characters in descending order.
             // If the frequency matches the count of the character, print it out.
