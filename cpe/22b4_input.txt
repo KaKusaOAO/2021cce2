@@ -1,0 +1,210 @@
+15
+4
+1234
+5678
+1234
+5678
+1
+transpose
+3
+000
+111
+000
+2
+row 1 2
+inc
+2
+82
+40
+9
+dec
+inc
+col 1 2
+dec
+inc
+transpose
+inc
+row 1 2
+dec
+2
+34
+90
+18
+dec
+col 1 2
+transpose
+col 2 1
+inc
+transpose
+row 1 2
+dec
+inc
+dec
+row 2 1
+col 2 1
+col 2 1
+col 2 1
+transpose
+col 1 2
+row 1 2
+row 1 2
+4
+0673
+7584
+9215
+4617
+14
+dec
+dec
+inc
+dec
+inc
+inc
+row 2 1
+col 2 1
+inc
+col 2 3
+dec
+dec
+transpose
+inc
+8
+89794387
+28621343
+47260136
+28160218
+30983976
+83819473
+19132614
+42266640
+4
+col 5 1
+row 4 6
+dec
+row 1 2
+5
+44755
+80751
+11558
+21428
+02069
+3
+row 3 4
+row 2 1
+transpose
+4
+1321
+2925
+0718
+1233
+4
+inc
+row 1 4
+dec
+transpose
+9
+365119714
+154970108
+842636343
+144772403
+404011529
+731715999
+745069638
+181443144
+216319583
+7
+row 8 9
+col 1 2
+row 3 8
+dec
+dec
+dec
+transpose
+2
+64
+47
+2
+transpose
+row 1 2
+6
+370222
+454122
+370458
+369105
+815043
+772715
+6
+transpose
+row 2 5
+transpose
+transpose
+col 6 3
+dec
+4
+8449
+5546
+6182
+4526
+7
+inc
+dec
+col 4 2
+inc
+inc
+inc
+col 2 3
+9
+905787661
+057302192
+382526847
+118201779
+467762505
+934184336
+120853974
+253111818
+360873281
+10
+dec
+col 3 9
+dec
+col 4 5
+transpose
+col 3 7
+dec
+row 9 6
+dec
+inc
+3
+202
+209
+547
+5
+dec
+inc
+row 2 3
+transpose
+dec
+4
+9702
+3646
+2781
+2134
+18
+row 3 2
+col 1 2
+col 3 4
+inc
+row 2 4
+dec
+dec
+inc
+dec
+transpose
+col 3 1
+transpose
+inc
+row 2 4
+dec
+transpose
+col 1 3
+transpose
