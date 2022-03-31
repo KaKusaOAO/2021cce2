@@ -10,15 +10,23 @@ bool isPowerOf2(ll n) {
     return n == 1;
 }
 
-ll getMaxPowerOf2BelowN(ll n) {
-    if (n == 0) return 0;
-
+int getPowerOf2(ll n) {
+    if (n <= 0) return 0;
     int m = 0;
     while (n != 1) {
         n >>= 1;
         m++;
     }
-    return 1 << m;
+    return m;
+}
+
+ll getMaxPowerOf2BelowN(ll n) {
+    if (n <= 0) return 0;
+    return 1 << getPowerOf2(n);
+}
+
+ll getMinPowerOf2AboveN(ll n) {
+    return getMaxPowerOf2BelowN(n) << 1;
 }
 
 ll rowCount(ll row, ll size) {
@@ -43,16 +51,36 @@ ll rowCount(ll row, ll size) {
     }
 }
 
-void doTestCase(int t) {
-    int k, a, b;
-    scanf("%d %d %d", &k, &a, &b);
-
-    ll sum = 0;
-    ll size = 1 << k;
-    for (ll i=a; i<=b; i++) {
-        sum += rowCount(i, size);
+ll rowCountBelowRow(ll row, ll size) {
+    if (size == 2) {
+        return 3 - row;
     }
-    printf("Case %d: %llu\n", t, sum);
+    if (row > size) return 0;
+    if (row == size) return 1;
+
+    ll sum = 1;
+    ll base = size - row + 1;
+    for (ll i=0; i < getPowerOf2(base); i++) {
+        sum *= 3;
+    }
+
+    if (row != 1) {
+        ll newSize = size / 2;
+        sum += rowCountBelowRow(row, newSize) * 2;
+    }
+    return sum;
+}
+
+void doTestCase(int t) {
+    int k;
+    ll a, b;
+    scanf("%d %llu %llu", &k, &a, &b);
+    if (k < 0) k = 0;
+    if (k > 30) k = 30;
+
+    ll size = 1 << k;
+    ll result = rowCountBelowRow(a, size) - rowCountBelowRow(b + 1, size);
+    printf("Case %d: %llu\n", t, result);
 }
 
 int main() {
