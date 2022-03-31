@@ -2,56 +2,57 @@
 #include <cstring>
 #include <cstdlib>
 
-int index(size_t size, int x, int y) {
-    return (int)((y * size) + x);
+typedef long long ll;
+
+bool isPowerOf2(ll n) {
+    if (n == 0) return true;
+    while ((n & 1) == 0) n >>= 1;
+    return n == 1;
 }
 
-void copyFromOrigin(int *matrix, size_t size, int w, int h, int x2, int y2) {
-    for (int x = 0; x < w; x++) {
-        for (int y = 0; y < h; y++) {
-            int idxA = index(size, x, y);
-            int idxB = index(size, x + x2, y + y2);
-            matrix[idxB] = matrix[idxA];
-        }
+ll getMaxPowerOf2BelowN(ll n) {
+    if (n == 0) return 0;
+
+    int m = 0;
+    while (n != 1) {
+        n >>= 1;
+        m++;
     }
+    return 1 << m;
 }
 
-void evolve(int *matrix, size_t size, int nHour) {
-    if (nHour == 0) {
-        matrix[0] = 1;
-        return;
+ll rowCount(ll row, ll size) {
+    ll n = size - row + 1;
+    if (isPowerOf2(n)) {
+        return n;
     }
 
-    int cSize = 1 << (nHour - 1);
-    copyFromOrigin(matrix, size, cSize, cSize, cSize, 0);
-    copyFromOrigin(matrix, size, cSize, cSize, 0, cSize);
+    ll a = getMaxPowerOf2BelowN(size-1);
+    if (a >= 4) {
+        ll r = row > a ? row - a : row;
+        ll c = rowCount(r, a);
+        return n < a ? c : c * 2;
+    }
+
+    switch (row) {
+        case 1: return 4;
+        case 2:
+        case 3: return 2;
+        case 4:
+        default: return 1;
+    }
 }
 
 void doTestCase(int t) {
-    int hour;
-    size_t size;
-    scanf("%d", &hour);
-    size = 1 << hour;
+    int k, a, b;
+    scanf("%d %d %d", &k, &a, &b);
 
-    size_t memSize = (size * size) * sizeof(int);
-    int *matrix = (int*) malloc(memSize);
-    memset(matrix, 0, memSize);
-
-    for (int i=0; i<=hour; i++) {
-        evolve(matrix, size, i);
+    ll sum = 0;
+    ll size = 1 << k;
+    for (ll i=a; i<=b; i++) {
+        sum += rowCount(i, size);
     }
-
-    int a, b, c = 0;
-    scanf("%d %d", &a, &b);
-    for (int i=a-1; i<=b-1; i++) {
-        for (int j=0; j<size; j++) {
-            int idx = index(size, j, i);
-            if (matrix[idx] == 1) c++;
-        }
-    }
-
-    printf("Case %d: %d\n", t, c);
-    free(matrix);
+    printf("Case %d: %llu\n", t, sum);
 }
 
 int main() {
