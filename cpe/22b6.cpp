@@ -47,9 +47,9 @@ void doTestCase(int t) {
     scanf("%d %llu %llu", &k, &a, &b);
     ll size = powll(2, k);
 
+    if (a > b) swap(a, b);
     a = size - a + 1;
     b = size - b;
-    if (a < b) swap(a, b);
 
     printf("Case %d: %llu\n", t, getTotal(a) - getTotal(b));
 }
