@@ -1,10 +1,11 @@
 #include <cstdio>
-#include <cmath>
 
 typedef long long ll;
 
 ll powll(ll a, ll b) {
-    int n = a;
+    if (b == 0) return 1;
+
+    ll n = a;
     for (ll i=1; i<b; i++) {
         a *= n;
     }
@@ -35,30 +36,26 @@ ll getTotal(ll row) {
     return result;
 }
 
-void swap(ll& a, ll& b) {
+inline void swap(ll& a, ll& b) {
     ll tmp = a;
     a = b;
     b = tmp;
-}
-
-void doTestCase(int t) {
-    int k;
-    ll a, b;
-    scanf("%d %llu %llu", &k, &a, &b);
-    ll size = powll(2, k);
-
-    if (a > b) swap(a, b);
-    a = size - a + 1;
-    b = size - b;
-
-    printf("Case %d: %llu\n", t, getTotal(a) - getTotal(b));
 }
 
 int main() {
     int T;
     scanf("%d", &T);
     for (int t=1; t<=T; t++) {
-        doTestCase(t);
+        int k;
+        ll a, b;
+        scanf("%d %llu %llu", &k, &a, &b);
+        ll size = powll(2, k);
+
+        if (a > b) swap(a, b);
+        a = size - a + 1;
+        b = size - b;
+
+        printf("Case %d: %llu\n", t, getTotal(a) - getTotal(b));
     }
     return 0;
 }
