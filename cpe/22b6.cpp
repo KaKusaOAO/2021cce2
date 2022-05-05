@@ -1,66 +1,61 @@
 #include <cstdio>
-#include <cstring>
-#include <cstdlib>
 
 typedef long long ll;
 
-bool isPowerOf2(ll n) {
-    if (n == 0) return true;
-    while ((n & 1) == 0) n >>= 1;
-    return n == 1;
+ll powll(ll a, ll b) {
+    if (b == 0) return 1;
+
+    ll n = a;
+    for (ll i=1; i<b; i++) {
+        a *= n;
+    }
+    return a;
 }
 
-ll getMaxPowerOf2BelowN(ll n) {
+int powOf2(ll n) {
     if (n == 0) return 0;
-
     int m = 0;
     while (n != 1) {
         n >>= 1;
         m++;
     }
-    return 1 << m;
+    return m;
 }
 
-ll rowCount(ll row, ll size) {
-    ll n = size - row + 1;
-    if (isPowerOf2(n)) {
-        return n;
-    }
+ll getTotal(ll row) {
+    // row: inversed!
+    if (row <= 1) return row;
 
-    ll a = getMaxPowerOf2BelowN(size-1);
-    if (a >= 4) {
-        ll r = row > a ? row - a : row;
-        ll c = rowCount(r, a);
-        return n < a ? c : c * 2;
-    }
+    ll p = powOf2(row);
+    ll size = powll(2, p);
+    ll result = powll(3, p);
 
-    switch (row) {
-        case 1: return 4;
-        case 2:
-        case 3: return 2;
-        case 4:
-        default: return 1;
+    if (row - size > 0) {
+        result += getTotal(row - size) * 2;
     }
+    return result;
 }
 
-void doTestCase(int t) {
-    int k, a, b;
-    scanf("%d %d %d", &k, &a, &b);
-
-    ll sum = 0;
-    ll size = 1 << k;
-    for (ll i=a; i<=b; i++) {
-        sum += rowCount(i, size);
-    }
-    printf("Case %d: %llu\n", t, sum);
+inline void swap(ll& a, ll& b) {
+    ll tmp = a;
+    a = b;
+    b = tmp;
 }
 
 int main() {
     int T;
     scanf("%d", &T);
     for (int t=1; t<=T; t++) {
-        doTestCase(t);
-    }
+        int k;
+        ll a, b;
+        scanf("%d %llu %llu", &k, &a, &b);
+        ll size = powll(2, k);
 
+        if (a > b) swap(a, b);
+        a = size - a + 1;
+        b = size - b;
+
+        printf("Case %d: %llu\n", t, getTotal(a) - getTotal(b));
+    }
     return 0;
 }
