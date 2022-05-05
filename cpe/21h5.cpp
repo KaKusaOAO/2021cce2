@@ -88,6 +88,8 @@ void doCase(int n) {
         printf("-");
     }
     printf("\n\n");
+    
+    free(map);
 }
 
 int main() {
